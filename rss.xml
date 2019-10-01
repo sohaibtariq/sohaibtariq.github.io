@@ -1,4 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Wandering but not lost]]></title><description><![CDATA[A blog about my wanderings in technology and life]]></description><link>https://sohaibtariq.github.io</link><generator>RSS for Node</generator><lastBuildDate>Mon, 19 Aug 2019 12:14:10 GMT</lastBuildDate><item><title><![CDATA[Exponential backoff for AWS Lambda]]></title><description><![CDATA[I recently set up a Lambda function that reads data from an SQS Queue 
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Sohaib's Blog]]></title><description><![CDATA[A blog about my wanderings in technology and life]]></description><link>https://sohaibtariq.github.io</link><generator>RSS for Node</generator><lastBuildDate>Tue, 01 Oct 2019 07:42:00 GMT</lastBuildDate><item><title><![CDATA[My Professional Journey as a Software Engineer]]></title><description><![CDATA[I got hired straight out of university as a Backend Engineer. The first project I was assigned to had 
+a Spring Boot backend.  I had very…]]></description><link>https://sohaibtariq.github.io/java-dontnet/</link><guid isPermaLink="false">https://sohaibtariq.github.io/java-dontnet/</guid><pubDate>Sat, 28 Sep 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;I got hired straight out of university as a Backend Engineer. The first project I was assigned to had
+a Spring Boot backend.  I had very little Java development experience at the time; most of my time at
+university was spent working with Python and C/C++. So I got to work learning Java. &lt;/p&gt;
+&lt;p&gt;I spent close to a year and a half working with Java, halfway through this period I was moved to a fullstack role
+so I picked up some Angular 7 as well. I was mostly doing API development and some integrations, all
+packaged nicely in microservices. It was rather fun, except for the rare occassions I ran into
+issues due to the limitations of Java. One case that stands out significantly was a scenario where I
+needed to write a service that could potentially parse any arbitrary JSON string and retrieve any value nested
+n levels deep. It wasnt so much a java issue as a static typing issue. How do you parse an object that could
+potentially have n levels of nested Objects of all types without knowing the structure beforehand.
+I was pulling my hair out over it for what now feels like a week but I&apos;m pretty sure my mind is exaggerating.
+I was unable to find a way to do this in Java so I finally gave up and wrote the solution in Javascript using the Nashorn
+Engine. It wasn&apos;t very perfmormant, but it got the job done.  &lt;/p&gt;
+&lt;p&gt;Long story short, most of my journey as a Java Engineer was smooth sailing till the end; and end it did. The project
+I was working on shut down abruptly. I had nothing to do with that. I hope 😕&lt;/p&gt;
+&lt;p&gt;Since there weren&apos;t any other Java/Spring projects at my company, I was moved to a project with a C#/.NET Core stack.
+This marked a milestone in my journey, a challenge, if you will. I was fairly proficient at my tech stack, could
+I effectively translate my prior knowledge to another stack and toolset and become fairly productive quickly ? &lt;/p&gt;
+&lt;p&gt;Challenge Accepted 😠	&lt;/p&gt;
+&lt;p&gt;I am now almost a month into my transition. So far so good. I have to admit the first week was nervy. Not only
+was I supposed to work on an entirely new technology stack , but I also had to
+contend with understanding an entirely new functional domain for a fairly large enterprise application. I was
+more worried about the former, but in retrospect, it was the latter that proved to be the bigger challenge of the two.
+But thats another story.&lt;/p&gt;
+&lt;p&gt;I had previously been working with a code first approach and frankly, wasnt even aware that there was any other approach 😖.
+This new project is all DB first. I feel DB first is a little simpler but that might just be in my head. So thats
+a welcome change. &lt;/p&gt;
+&lt;p&gt;I also struggled a bit with the toolset. I&apos;m a big fan of Intellij, I had been using Intellij IDEA as my primary IDE
+all through my Java project. I was so used to the shortcut keys and the nifty fatures here and there that I
+felt handicapped coding in Visual Studio. The shortcut keys are all weird and the Immediate window is not quite
+as handy as the Evaluate Expression window in Intellij. It wasn&apos;t until after I started getting accustomed to Visual
+Studio, that I discovered I could have changed the keyboard mapping scheme to VS Code which would essentially give me
+the shortcuts I was missing. Such a shame 😢. &lt;/p&gt;
+&lt;p&gt;Another pain point for me was SQL. I had previously been using MySQL Workbench for interacting with our MySQL databases.
+Now I was being forced to use SQL Server and with it, SQL Server Management Studio.&lt;/p&gt;
+&lt;p&gt;A very convenient feature that Workbench offers is that if you make changes to tables interactively, it shows you the
+corresponding SQL statements before applying them. You can copy those statements and use them to replicate the same
+changes in your other environments. I have yet to find something similar in MS SQL Server Management Studio,
+In the meantime I have had to resort to writing queries manually for even trivial inserts and updates.  &lt;/p&gt;
+&lt;p&gt;It took me a month, but I am now approaching the levels of productivity that I was used to with my previous tech stack 💪 .
+When we factor in the fact that some of that time was also spent learning about the product, I dont think thats too bad.&lt;/p&gt;
+&lt;p&gt;All in all, it has been a positive experience so far. I was getting too set in my ways working on the same stack, following
+the same architectural patterns. This has forced me to step out of my comfort zone and learn some cool new things.
+Part of it has been the change in technology and part of it has been the fact that I am now working on an
+entirely new project with its
+own set of unique requirements.&lt;/p&gt;
+&lt;p&gt;I feel its important for budding software engineers to try different tools, technologies, design patterns and
+functional domains so they can keep learning and growing. Its a little intimidating during the fact, but
+looking back, its worth it. &lt;/p&gt;
+&lt;p&gt;Heres to hoping for more positive change, learning and growth. Cheers.  &lt;/p&gt;</content:encoded></item><item><title><![CDATA[Exponential backoff for AWS Lambda]]></title><description><![CDATA[I recently set up a Lambda function that reads data from an SQS Queue 
 and makes an API call to one of our microservices. 
 Naturally, this…]]></description><link>https://sohaibtariq.github.io/exponential-backoff/</link><guid isPermaLink="false">https://sohaibtariq.github.io/exponential-backoff/</guid><pubDate>Mon, 19 Aug 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;I recently set up a Lambda function that reads data from an SQS Queue
 and makes an API call to one of our microservices.
