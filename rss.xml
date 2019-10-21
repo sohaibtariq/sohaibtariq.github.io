@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Sohaib's Blog]]></title><description><![CDATA[A blog about my wanderings in technology and life]]></description><link>https://sohaibtariq.github.io</link><generator>RSS for Node</generator><lastBuildDate>Tue, 01 Oct 2019 07:44:39 GMT</lastBuildDate><item><title><![CDATA[My Professional Journey as a Software Engineer]]></title><description><![CDATA[I got hired straight out of university as a Backend Engineer. The first project I was assigned to had 
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Sohaib's Blog]]></title><description><![CDATA[A blog about my wanderings in technology and life]]></description><link>https://sohaibtariq.github.io</link><generator>RSS for Node</generator><lastBuildDate>Mon, 21 Oct 2019 17:05:51 GMT</lastBuildDate><item><title><![CDATA[Barebones Authorization for Hangfire Dashboard]]></title><description><![CDATA[I just set up a Hangfire dashboard for our .NET Core application. As a security measure, the hangfire dashboard only allows local requests…]]></description><link>https://sohaibtariq.github.io/hangfire/</link><guid isPermaLink="false">https://sohaibtariq.github.io/hangfire/</guid><pubDate>Mon, 21 Oct 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;
+I just set up a Hangfire dashboard for our .NET Core application. As a security measure, the hangfire dashboard only allows local requests. If you wish to access the dashboard on a production server, you need to set up some form of Authorization by creating an implementation of IDashboardAuthorizationFilter. Now, there are a number of ways to do this, depending on your reuirements. All we needed was a quick solution that would allow us to see our dashboard on our development server.&lt;/p&gt;
+&lt;p&gt;If you are also looking for a quick and dirty solution,here is how I did it :&lt;/p&gt;
+&lt;p&gt;First, create an implementation of &lt;em&gt;IDashboardAuthorizationFilter&lt;/em&gt;. We provide this implementation in the form of an Action Filter called &lt;em&gt;HangfireAuthorizationFilter&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You are now required to implement the Authorize method. We will authorize our user using credentials supplied in the query string. We simply store a username and password in our &lt;em&gt;appsetting.json&lt;/em&gt; and correlate the supplied credentials with these stored credentials. If they match, we store them in a &lt;strong&gt;session cookie&lt;/strong&gt; and return true, completing the Auth process. &lt;/p&gt;
+&lt;p&gt;Why do we need a cookie you say? thats because hangfire periodically makes requests to the application server in order to provide realtime data. Therefore, although the first request will contain the credentials in the query string, all subsequent calls will not, and hence, they will return a 401 status code. We fix this by including a session cookie in the reponse of our auth call. All subsequent requests made in that same session will contain this cookie and we can reauhtorize each incoming request. &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;public bool Authorize(DashboardContext context)
+        {
+            var httpContext = context.GetHttpContext();
+            
+            string userName = _settings.UserName;
+            string password = _settings.Password;
+
+            //if user has already logged in, in this session, subsequent requests will read credentials from cookie
+            if (httpContext.Request.Cookies[&amp;quot;user&amp;quot;] != null &amp;amp;&amp;amp; httpContext.Request.Cookies[&amp;quot;pwd&amp;quot;] != null
+                &amp;amp;&amp;amp; httpContext.Request.Cookies[&amp;quot;user&amp;quot;].Equals(userName) &amp;amp;&amp;amp; httpContext.Request.Cookies[&amp;quot;pwd&amp;quot;].Equals(password)) {              
+                
+                    return true;
+                }
+
+            else if (context.Request.GetQuery(&amp;quot;user&amp;quot;) != null &amp;amp;&amp;amp; context.Request.GetQuery(&amp;quot;pwd&amp;quot;) != null
+                    &amp;amp;&amp;amp; context.Request.GetQuery(&amp;quot;user&amp;quot;).Equals(userName) &amp;amp;&amp;amp; context.Request.GetQuery(&amp;quot;pwd&amp;quot;).Equals(password))
+            {
+                //Store credentials in cookie so that subsequent requests dont require them
+                httpContext.Response.Cookies.Append(&amp;quot;user&amp;quot;, userName);
+                httpContext.Response.Cookies.Append(&amp;quot;pwd&amp;quot;, password);
+                return true;
+            }
+
+            else return false;
+        }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Next, simply include you implemenation of &lt;em&gt;IDashboardAuthorizationFilter&lt;/em&gt; in your startup file and youre done.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;app.UseHangfireDashboard(&amp;quot;/hangfire&amp;quot;, new DashboardOptions
+               {
+                   IsReadOnlyFunc = (DashboardContext context) =&amp;gt; _hangfireSettings.MakeDashboardReadonly,
+                   Authorization = new[] { new HangFireAuthorizationFilter(_hangfireSettings)}
+
+               }); &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[My Professional Journey as a Software Engineer]]></title><description><![CDATA[I got hired straight out of university as a Backend Engineer. The first project I was assigned to had 
 a Spring Boot backend.  I had very…]]></description><link>https://sohaibtariq.github.io/java-dontnet/</link><guid isPermaLink="false">https://sohaibtariq.github.io/java-dontnet/</guid><pubDate>Sat, 28 Sep 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;I got hired straight out of university as a Backend Engineer. The first project I was assigned to had
 a Spring Boot backend.  I had very little Java development experience at the time; most of my time at
 university was spent working with Python and C/C++. So I got to work learning Java. &lt;/p&gt;
@@ -50,7 +87,8 @@ functional domains so they can keep learning and growing. Its a little intimidat
 looking back, its worth it. &lt;/p&gt;
 &lt;p&gt;Heres to hoping for more positive change, learning and growth. Cheers.  &lt;/p&gt;</content:encoded></item><item><title><![CDATA[Exponential backoff for AWS Lambda]]></title><description><![CDATA[I recently set up a Lambda function that reads data from an SQS Queue 
 and makes an API call to one of our microservices. 
-Naturally, this…]]></description><link>https://sohaibtariq.github.io/exponential-backoff/</link><guid isPermaLink="false">https://sohaibtariq.github.io/exponential-backoff/</guid><pubDate>Mon, 19 Aug 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;I recently set up a Lambda function that reads data from an SQS Queue
+Naturally, this…]]></description><link>https://sohaibtariq.github.io/exponential-backoff/</link><guid isPermaLink="false">https://sohaibtariq.github.io/exponential-backoff/</guid><pubDate>Mon, 19 Aug 2019 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;
+I recently set up a Lambda function that reads data from an SQS Queue
 and makes an API call to one of our microservices.
 Naturally, this calls for an error handling mechanism, considering that the microservice
 could be down or unresponsive.&lt;/p&gt;
